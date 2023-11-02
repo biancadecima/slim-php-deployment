@@ -7,6 +7,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
+require_once './controllers/UsuarioController.php';
+require_once './db/dataAccess.php';
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -19,29 +21,26 @@ $app->addErrorMiddleware(true, true, true);
 // Add parse body
 $app->addBodyParsingMiddleware();
 
-// Routes
-$app->get('[/]', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'GET', 'msg' => "Bienvenido a SlimFramework 2023"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
+$app->group('/usuarios', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \UsuarioController::class . ':ObtenerUsuarios');
+    $group->post('[/]', \UsuarioController::class . ':AltaUsuario');
+  });
+
+  $app->group('/mesas', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \MesaController::class . ':ObtenerMesas');
+    $group->post('[/]', \MesaController::class . ':AltaMesa');
 });
 
-$app->get('/test', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'GET', 'msg' => "Bienvenido a SlimFramework 2023"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
+$app->group('/productos', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \ProductoController::class . ':ObtenerProductos');
+    $group->post('[/]', \ProductoController::class . ':AltaProducto');
 });
 
-$app->post('[/]', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
+$app->group('/pedidos', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \PedidoController::class . ':ObtenerPedidos');
+    $group->post('[/]', \PedidoController::class . ':AltaPedido');
 });
 
-$app->post('/test', function (Request $request, Response $response) {
-    $payload = json_encode(array('method' => 'POST', 'msg' => "Bienvenido a SlimFramework 2023"));
-    $response->getBody()->write($payload);
-    return $response->withHeader('Content-Type', 'application/json');
-});
 
 $app->run();
+
