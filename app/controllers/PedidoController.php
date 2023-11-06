@@ -6,14 +6,21 @@ class PedidoController{
     {
         $parametros = $request->getParsedBody();
     
+        $idMozo = $parametros['idMozo'];
         $idMesa = $parametros['idMesa'];
         $tiempoEstimado = $parametros['tiempoEstimado'];
-        $productos = $parametros['productos'];
+        $stringProductos = $parametros['productos'];
+        $arrayProductos = explode(",", $stringProductos);
+        $productos = array();
+        foreach($arrayProductos as $id){
+            array_push($productos, Producto::TraerProducto_Id($id));
+        }
 
         $pedido = new Pedido();
+        $pedido->idMozo = $idMozo;
         $pedido->idMesa = $idMesa;
         $pedido->tiempoEstimado = $tiempoEstimado;
-        $pedido->productos = $productos;
+        $pedido->productos = json_encode($productos);
     
         $pedido->CrearPedido();
     

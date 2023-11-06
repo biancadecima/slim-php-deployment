@@ -5,17 +5,10 @@ class Usuario{
     public $apellido;
     public $fechaRegistro;
     public $tipo;
-/*
-    public function __construct($id = null, $nombre, $apellido, $fechaRegistro, $tipo)
-    {
-        $this->nombre = $nombre;
-        $this->apellido = $apellido;
-        $this->fechaRegistro = $fechaRegistro;
-        $this->tipo = $tipo;
-        if($id != null){
-            $this->id = $id;
-        }*
-    }*/
+
+
+
+    public function __construct(){}
 
     public function CrearUsuario(){
         $accesoDato = AccesoDatos::obtenerInstancia();

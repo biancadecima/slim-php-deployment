@@ -1,6 +1,7 @@
 <?php
 class Pedido{
     public $id;
+    public $idMozo;
     public $idMesa;
     public $tiempoEstimado;
     public $productos;
@@ -21,8 +22,9 @@ class Pedido{
     {
         $productosJson =  json_encode($this->productos);
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMesa, tiempoEstimado, productos) VALUES (:idMesa, :tiempoEstimado, :productos)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMozo, idMesa, tiempoEstimado, productos) VALUES (:idMozo, :idMesa, :tiempoEstimado, :productos)");
 
+        $consulta->bindValue(':idMozo', $this->idMozo, PDO::PARAM_INT);
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_INT);
         $consulta->bindValue(':productos', $productosJson, PDO::PARAM_STR);

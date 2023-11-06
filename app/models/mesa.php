@@ -13,7 +13,7 @@ class Mesa{
 
     public function CrearMesa(){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesas (estado) VALUES (:estado)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO mesa (estado) VALUES (:estado)");
 
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->execute();

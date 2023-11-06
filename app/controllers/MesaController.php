@@ -2,7 +2,7 @@
 require_once './models/mesa.php';
 class MesaController{
 
-    public static function AltaMesa($request, $response, $args)
+    public function AltaMesa($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
 

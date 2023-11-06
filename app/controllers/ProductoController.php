@@ -9,7 +9,7 @@ class ProductoController{
         $descripcion = $parametros['descripcion'];
         $precio = $parametros['precio'];
 
-        $producto = new Producto();
+        $producto = new Producto($descripcion, $precio);
         $producto->descripcion = $descripcion;
         $producto->precio = $precio;
 
