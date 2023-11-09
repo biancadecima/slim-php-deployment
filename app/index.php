@@ -12,6 +12,7 @@ require_once './controllers/MesaController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
 require_once './db/dataAccess.php';
+require_once './middlewares/autenticador.php';
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -26,7 +27,9 @@ $app->addBodyParsingMiddleware();
 
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':ObtenerUsuarios');
-    $group->post('[/]', \UsuarioController::class . ':AltaUsuario');
+    $group->post('[/]', \UsuarioController::class . ':AltaUsuario')->add(new AuthenticatorMW());
+    //$group->delete('[/]', \UsuarioController::class . ':EliminarUsuario')->add(new AuthenticatorMW());
+    //$group->update('[/]', \UsuarioController::class . ':ModificarUsuario')->add(new AuthenticatorMW());
   });
 
   $app->group('/mesas', function (RouteCollectorProxy $group) {
@@ -43,6 +46,7 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':ObtenerPedidos');
     $group->post('[/]', \PedidoController::class . ':AltaPedido');
 });
+
 
 
 $app->run();

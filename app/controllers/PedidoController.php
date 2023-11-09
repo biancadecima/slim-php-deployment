@@ -37,6 +37,11 @@ class PedidoController{
         return $response
             ->withHeader('Content-Type', 'application/json');
     }
+
+    public static function CambiarEstado($request, $response, $args){
+        $param = $request->getQueryParams();
+        $parametros = $request->getParsedBody();
+    }
 }
 
 ?>
