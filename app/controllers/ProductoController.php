@@ -7,11 +7,12 @@ class ProductoController{
         $parametros = $request->getParsedBody();
 
         $descripcion = $parametros['descripcion'];
+        $sector = $parametros['sector'];
         $precio = $parametros['precio'];
 
-        $producto = new Producto($descripcion, $precio);
-        $producto->descripcion = $descripcion;
-        $producto->precio = $precio;
+        $producto = new Producto($descripcion, $sector, $precio);
+        //$producto->descripcion = $descripcion;
+        //$producto->precio = $precio;
 
         $producto->CrearProducto();
 

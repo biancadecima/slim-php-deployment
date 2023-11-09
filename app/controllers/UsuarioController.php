@@ -33,5 +33,15 @@ class UsuarioController{
         return $response
             ->withHeader('Content-Type', 'application/json');
     }
+/*
+    public function TraerUsuarioPorID($request, $response, $args)
+    {
+        $usuarios = Usuario::TraerUsuarios();
+
+        $payload = json_encode(array("listaUsuarios" => $usuarios));
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json');
+    }*/
 }
 ?>

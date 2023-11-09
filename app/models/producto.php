@@ -5,7 +5,7 @@ class Producto{
     public $sector;
     public $precio;
 
-    public function __construct($descripcion, $precio, $id = null)
+    public function __construct($descripcion, $sector, $precio, $id = null)
     {
         $this->descripcion = $descripcion;
         $this->precio = $precio;
@@ -17,12 +17,13 @@ class Producto{
     public function CrearProducto()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO producto (descripcion, precio) VALUES (:descripcion, :precio)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO producto (descripcion, sector, precio) VALUES (:descripcion, :sector, :precio)");
         $consulta->bindValue(':descripcion', $this->descripcion, PDO::PARAM_STR);
-        $consulta->bindValue(':precio', $this->precio, PDO::PARAM_STR);
+        $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
+        $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
         $consulta->execute();
 
-        return $objAccesoDatos->obtenerUltimoId();
+        $consulta->execute();
     }
 
 
@@ -43,7 +44,7 @@ class Producto{
         $consulta->execute();
         $productoBuscado = $consulta->fetchObject();
         if($productoBuscado != null){
-            $producto = new Producto($productoBuscado->descripcion, $productoBuscado->precio, $productoBuscado->id);
+            $producto = new Producto($productoBuscado->descripcion, $productoBuscado->sector, $productoBuscado->precio, $productoBuscado->id);
         }
 
         return $producto;

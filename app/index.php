@@ -27,7 +27,7 @@ $app->addBodyParsingMiddleware();
 
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':ObtenerUsuarios');
-    $group->post('[/]', \UsuarioController::class . ':AltaUsuario')->add(new AuthenticatorMW());
+    $group->post('[/]', \UsuarioController::class . ':AltaUsuario')->add(new AuthenticatorMW('socio'));
     //$group->delete('[/]', \UsuarioController::class . ':EliminarUsuario')->add(new AuthenticatorMW());
     //$group->update('[/]', \UsuarioController::class . ':ModificarUsuario')->add(new AuthenticatorMW());
   });
@@ -44,7 +44,14 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':ObtenerPedidos');
-    $group->post('[/]', \PedidoController::class . ':AltaPedido');
+    
+    //if(isset($_GET['accion'])){
+       // if($_GET['accion'] == 'estado'){
+        $group->post('/estado', \PedidoController::class . ':ModificarEstado');
+       // }else if($_GET['accion'] == 'alta'){
+            $group->post('[/]', \PedidoController::class . ':AltaPedido');
+        //}
+   // }
 });
 
 

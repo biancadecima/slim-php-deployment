@@ -10,6 +10,7 @@ class Usuario{
 
     public function __construct(){}
 
+
     public function CrearUsuario(){
         $accesoDato = AccesoDatos::obtenerInstancia();
         $consulta = $accesoDato->prepararConsulta("INSERT INTO usuario (nombre, apellido, fechaRegistro, tipo) VALUES (:nombre, :apellido, :fechaRegistro, :tipo)");
@@ -33,6 +34,16 @@ class Usuario{
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'usuario');
+    }
+
+    public static function TraerUsuarioPorID($id)
+    {
+        $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
+        $consulta = $objetoAccesoDato->prepararConsulta("select * from usuario where id = ?");
+        $consulta->bindValue(1, $id, PDO::PARAM_INT);
+        $consulta->execute();
+        $usuario = $consulta->fetchObject();
+        return $usuario;
     }
 
 }
