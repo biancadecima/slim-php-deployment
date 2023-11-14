@@ -30,5 +30,10 @@ class MesaController{
         return $response
             ->withHeader('Content-Type', 'application/json');
     }
+
+    /*public static function ModificarEstado($request, $response, $args){
+        
+    }*/
+    
 }
 ?>

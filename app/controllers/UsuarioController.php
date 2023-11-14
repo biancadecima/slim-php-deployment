@@ -7,14 +7,14 @@ class UsuarioController{
         $parametros = $request->getParsedBody();
         $nombre = $parametros['nombre'];
         $apellido = $parametros['apellido'];
-        $fechaRegistro = $parametros['fechaRegistro'];
+        //$fechaRegistro = $parametros['fechaRegistro'];
         $tipo = $parametros['tipo'];
 
         // Creamos el usuario
         $usr = new Usuario();
         $usr->nombre = $nombre;
         $usr->apellido = $apellido;
-        $usr->fechaRegistro = $fechaRegistro;
+        $usr->fechaRegistro = date('Y-m-d H:i:s');
         $usr->tipo = $tipo;
         $usr->CrearUsuario();
 
@@ -33,15 +33,21 @@ class UsuarioController{
         return $response
             ->withHeader('Content-Type', 'application/json');
     }
-/*
-    public function TraerUsuarioPorID($request, $response, $args)
-    {
-        $usuarios = Usuario::TraerUsuarios();
 
-        $payload = json_encode(array("listaUsuarios" => $usuarios));
+    public function BajaUsuario($request, $response, $args){
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $usuario = Usuario::TraerUsuarioPorID($id);
+        if($usuario){
+            if(Usuario::EliminarUsuario($id)){
+                $payload = json_encode(array("mensaje" => "Usuario eliminado con exito"));
+            }
+        }else{
+            $payload = json_encode(array("mensaje" => "Error en eliminar usuario"));
+        }
         $response->getBody()->write($payload);
-        return $response
-            ->withHeader('Content-Type', 'application/json');
-    }*/
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
 }
 ?>
