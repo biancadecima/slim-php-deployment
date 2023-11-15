@@ -4,11 +4,16 @@ class Producto{
     public $descripcion;
     public $sector;
     public $precio;
+    public $tiempoEstimado;
+    public $activo;
 
-    public function __construct($descripcion, $sector, $precio, $id = null)
+    public function __construct($descripcion, $sector, $precio, $tiempoEstimado, $activo, $id = null)
     {
         $this->descripcion = $descripcion;
+        $this->sector = $sector;
         $this->precio = $precio;
+        $this->tiempoEstimado = $tiempoEstimado;
+        $this->activo = $activo;
         if($id != null){
             $this->id = $id;
         }
@@ -17,10 +22,12 @@ class Producto{
     public function CrearProducto()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO producto (descripcion, sector, precio) VALUES (:descripcion, :sector, :precio)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO producto (descripcion, sector, precio, tiempoEstimado, activo) VALUES (:descripcion, :sector, :precio, :tiempoEstimado, :activo)");
         $consulta->bindValue(':descripcion', $this->descripcion, PDO::PARAM_STR);
         $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
+        $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_STR);
+        $consulta->bindValue(':activo', $this->activo, PDO::PARAM_INT);
         $consulta->execute();
 
         $consulta->execute();
@@ -29,7 +36,7 @@ class Producto{
 
     public static function TraerProductos() {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM producto");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM producto WHERE activo = 1");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
@@ -39,15 +46,33 @@ class Producto{
 	{
         $producto = null;
         $objAccesoDatos = AccesoDatos::obtenerInstancia(); 
-        $consulta =$objAccesoDatos->prepararConsulta("select * from producto where id = ?");
+        $consulta =$objAccesoDatos->prepararConsulta("SELECT * from producto where id = ? and activo = 1");
         $consulta->bindValue(1, $id, PDO::PARAM_INT);
         $consulta->execute();
         $productoBuscado = $consulta->fetchObject();
         if($productoBuscado != null){
-            $producto = new Producto($productoBuscado->descripcion, $productoBuscado->sector, $productoBuscado->precio, $productoBuscado->id);
+            $producto = new Producto($productoBuscado->descripcion, $productoBuscado->sector, $productoBuscado->precio, $productoBuscado->tiempoEstimado, $productoBuscado->activo, $productoBuscado->id);
         }
 
         return $producto;
 	}
+
+    public static function EliminarProducto($id){ // debe ser una baja logica
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE producto SET activo = 0 WHERE id = ?");
+        $consulta->bindValue(1, $id, PDO::PARAM_INT);
+        return $consulta->execute();
+    }
+
+    public static function ModificarProducto($id, $descripcion, $sector, $precio){ 
+        $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
+        $consulta =$objetoAccesoDato->prepararConsulta("UPDATE producto SET descripcion = ?, sector = ?, precio = ? WHERE id = ?");
+        $consulta->bindValue(1, $descripcion, PDO::PARAM_STR);
+        $consulta->bindValue(2, $sector, PDO::PARAM_STR);
+        $consulta->bindValue(3, $precio, PDO::PARAM_INT);
+        $consulta->bindValue(4, $id, PDO::PARAM_INT);
+   
+        return $consulta->execute();
+    }
     
 }

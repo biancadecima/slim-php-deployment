@@ -1,0 +1,7 @@
+id,nombre,apellido,fechaRegistro,tipo,username,contrasenia,activo
+1,bianca,decima,"0000-00-00 00:00:00",mesero,bdecima,nosoybd,1
+3,biancoco,decimomo,"0000-00-00 00:00:00",socio,coco,cococo,1
+5,tomas,"pera alta","0000-00-00 00:00:00",mesero,tompe,1234,1
+18,marco,polo,"0000-00-00 00:00:00",mesero,marpolo,mapo123,1
+19,gian,luca,"0000-00-00 00:00:00",socio,gianlu,lugian123,1
+20,trini,nucera,"0000-00-00 00:00:00",mesero,carlos12,1234,1

@@ -59,16 +59,16 @@ class Usuario{
         return $consulta->execute();
     }
 
-    public function ModificarUsuario($nombre, $apellido, $fechaRegistro, $tipo, $username, $contrasenia){ //no se como plantearlo
+    public static function ModificarUsuario($id, $nombre, $apellido, $fechaRegistro, $tipo, $username, $contrasenia){ //no se como plantearlo
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
         $consulta =$objetoAccesoDato->prepararConsulta("UPDATE usuario SET nombre = ?, apellido = ?, fechaRegistro = ?, tipo = ?, username = ?, contrasenia = ?  WHERE id = ?");
-        $consulta->bindValue(1, $this->nombre, PDO::PARAM_STR);
-        $consulta->bindValue(2, $this->apellido, PDO::PARAM_STR);
-        $consulta->bindValue(3, $this->fechaRegistro, PDO::PARAM_STR);
-        $consulta->bindValue(4, $this->tipo, PDO::PARAM_STR);
-        $consulta->bindValue(5, $this->username, PDO::PARAM_STR);
-        $consulta->bindValue(6, $this->contrasenia, PDO::PARAM_STR);
-        $consulta->bindValue(7, $this->id, PDO::PARAM_INT);
+        $consulta->bindValue(1, $nombre, PDO::PARAM_STR);
+        $consulta->bindValue(2, $apellido, PDO::PARAM_STR);
+        $consulta->bindValue(3, $fechaRegistro, PDO::PARAM_STR);
+        $consulta->bindValue(4, $tipo, PDO::PARAM_STR);
+        $consulta->bindValue(5, $username, PDO::PARAM_STR);
+        $consulta->bindValue(6, $contrasenia, PDO::PARAM_STR);
+        $consulta->bindValue(7, $id, PDO::PARAM_INT);
         return $consulta->execute();
     }
 
