@@ -5,14 +5,6 @@ class Mesa{
     public $estado;
     public $activo;
 
-   /* public function __construct($estado, $id = null)
-    {
-        $this->estado = $estado;
-        if($id != null){
-            $this->id = $id;
-        }
-    }*/
-
     public function CrearMesa(){
         $activo = 1;
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
@@ -88,5 +80,6 @@ class Mesa{
    
         return $consulta->execute();
     }
+    
 }
 ?>

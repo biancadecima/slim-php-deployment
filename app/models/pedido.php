@@ -8,18 +8,6 @@ class Pedido{
     public $productos;
     public $activo;
 
-    /*public function __construct($id = null,  $idMesa, $tiempoEstimado, $productos = null){
-        if($id != null){
-            $this->id = $id;
-        }
-        $this->idMesa = $idMesa;
-        $this->tiempoEstimado = $tiempoEstimado;
-        $this->productos = array();
-        if($productos != null){
-            $this->productos = $productos; 
-        }
-    }*/
-
     public function CrearPedido()
     {
         $productosJson =  json_encode($this->productos);

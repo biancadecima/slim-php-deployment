@@ -29,17 +29,15 @@ class Producto{
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_STR);
         $consulta->bindValue(':activo', $this->activo, PDO::PARAM_INT);
         $consulta->execute();
-
-        $consulta->execute();
     }
 
 
     public static function TraerProductos() {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM producto WHERE activo = 1");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM producto WHERE activo = true");
         $consulta->execute();
 
-        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
+        return $consulta->fetchAll(PDO::FETCH_CLASS);
     }
 
     public static function TraerProducto_Id($id) 
@@ -50,8 +48,10 @@ class Producto{
         $consulta->bindValue(1, $id, PDO::PARAM_INT);
         $consulta->execute();
         $productoBuscado = $consulta->fetchObject();
-        if($productoBuscado != null){
+        if($productoBuscado != false){
             $producto = new Producto($productoBuscado->descripcion, $productoBuscado->sector, $productoBuscado->precio, $productoBuscado->tiempoEstimado, $productoBuscado->activo, $productoBuscado->id);
+        }else{
+            return false;
         }
 
         return $producto;

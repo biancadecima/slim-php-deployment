@@ -35,9 +35,15 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':ObtenerUsuarios')
         ->add(new LoggerMW())
         ->add(new AuthenticatorMW('socio'));
-    $group->post('[/]', \UsuarioController::class . ':AltaUsuario')/*->add(new AuthenticatorMW('socio'))*/;
-    $group->post('/baja', \UsuarioController::class . ':BajaUsuario')/*->add(new AuthenticatorMW('socio'))*/;
-    $group->post('/modificar', \UsuarioController::class . ':ModificarUsuario')/*->add(new AuthenticatorMW())*/;
+    $group->post('[/]', \UsuarioController::class . ':AltaUsuario')
+    ->add(new LoggerMW())
+    ->add(new AuthenticatorMW('socio'));
+    $group->post('/baja', \UsuarioController::class . ':BajaUsuario')
+        ->add(new LoggerMW())
+        ->add(new AuthenticatorMW('socio'));
+    $group->post('/modificar', \UsuarioController::class . ':ModificarUsuario')
+        ->add(new LoggerMW())
+        ->add(new AuthenticatorMW('socio'));
     $group->get('/guardar', \UsuarioController::class . ':GuardarUsuarios');
     $group->get('/cargar', \UsuarioController::class . ':CargarUsuarios');
 });
@@ -45,8 +51,8 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':ObtenerMesas');
     $group->post('[/]', \MesaController::class . ':AltaMesa');
-    $group->post('/baja', \MesaController::class . ':BajaMesa')/*->add(new AuthenticatorMW('socio'))*/;
-    $group->post('/modificar', \MesaController::class . ':ModificarMesa')/*->add(new AuthenticatorMW())*/;
+    $group->post('/baja', \MesaController::class . ':BajaMesa');
+    $group->post('/modificar', \MesaController::class . ':ModificarMesa');
 });
 
 $app->group('/productos', function (RouteCollectorProxy $group) {

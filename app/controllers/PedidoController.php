@@ -8,14 +8,14 @@ class PedidoController{
     
         $idMozo = $parametros['idMozo'];
         $idMesa = $parametros['idMesa'];
-        //$tiempoEstimado = $parametros['tiempoEstimado'];
         $stringProductos = $parametros['productos'];
         $array_idsProductos = explode(",", $stringProductos);
         $productos = array();
         foreach($array_idsProductos as $id){
-            array_push($productos, Producto::TraerProducto_Id($id));
+            if(Producto::TraerProducto_Id($id) != false){
+                array_push($productos, Producto::TraerProducto_Id($id));
+            }
         }
-
 
         $tiemposEnSegundos = array_map(function($producto) {
             list($horas, $minutos, $segundos) = explode(':', $producto->tiempoEstimado);
@@ -32,9 +32,13 @@ class PedidoController{
         $pedido->productos = json_encode($productos);
         $pedido->activo = 1;
     
-        $pedido->CrearPedido();
-    
-        $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
+        if(Mesa::TraerMesaPorID($idMesa) && Usuario::VerificarMesero($idMozo)){
+            $pedido->CrearPedido();
+            $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
+        }else{
+            $payload = json_encode(array("mensaje" => "No se pudo crear el pedido por error de datos"));
+        }
+       
     
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
@@ -68,7 +72,7 @@ class PedidoController{
                     $payload = json_encode(array("mensaje" => "El estado del pedido era ".$pedido->estado." y se ha actualizado a ".$estado." exitosamente"));
                     break;
                 case 'Finalizado':
-                    $pedido->tiempoEstimado = "00:00:30";
+                    $pedido->tiempoEstimado = "00:05:00";
                     $pedido->ActualizarEstadoPedido($estado);
                     $payload = json_encode(array("mensaje" => "El estado del pedido era ".$pedido->estado." y se ha actualizado a ".$estado." exitosamente"));
                     break;

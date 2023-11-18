@@ -52,6 +52,19 @@ class Usuario{
         return $usuario;
     }
 
+    public static function VerificarMesero($id)
+    {
+        $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
+        $consulta = $objetoAccesoDato->prepararConsulta("SELECT * from usuario where id = ? AND activo = 1");
+        $consulta->bindValue(1, $id, PDO::PARAM_INT);
+        $consulta->execute();
+        $usuario = $consulta->fetchObject();
+        if($usuario->tipo == 'mesero'){
+            return true;
+        }
+        return false;
+    }
+
     public static function EliminarUsuario($id){ // debe ser una baja logica
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("UPDATE usuario SET activo = 0 WHERE id = ?");

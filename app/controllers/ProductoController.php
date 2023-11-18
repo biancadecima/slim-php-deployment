@@ -12,8 +12,6 @@ class ProductoController{
         $tiempoestimado = $parametros['tiempoEstimado'];
 
         $producto = new Producto($descripcion, $sector, $precio, $tiempoestimado, 1);
-        //$producto->descripcion = $descripcion;
-        //$producto->precio = $precio;
 
         $producto->CrearProducto();
 
@@ -70,5 +68,6 @@ class ProductoController{
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    
 }
 ?>

@@ -7,8 +7,9 @@ class UsuarioController{
         $parametros = $request->getParsedBody();
         $nombre = $parametros['nombre'];
         $apellido = $parametros['apellido'];
-        //$fechaRegistro = $parametros['fechaRegistro'];
         $tipo = $parametros['tipo'];
+        $username = $parametros['username'];
+        $contrasenia = $parametros['contrasenia'];
 
         // Creamos el usuario
         $usr = new Usuario();
@@ -16,6 +17,8 @@ class UsuarioController{
         $usr->apellido = $apellido;
         $usr->fechaRegistro = date('Y-m-d H:i:s');
         $usr->tipo = $tipo;
+        $usr->username = $username;
+        $usr->contrasenia = $contrasenia;
         $usr->CrearUsuario();
 
         $payload = json_encode(array("mensaje" => "Usuario creado con exito"));
