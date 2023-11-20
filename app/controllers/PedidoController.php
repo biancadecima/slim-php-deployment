@@ -31,6 +31,15 @@ class PedidoController{
         $pedido->tiempoEstimado = $producto_mayor->tiempoEstimado;
         $pedido->productos = json_encode($productos);
         $pedido->activo = 1;
+        if(isset($_FILES['imagen'])){
+            $rutaImagen ='C:\xampp\htdocs\slim-php-deployment\images';
+            $imagen = $_FILES['imagen'];
+            //var_dump($imagen);
+            $destino = $pedido->DefinirDestinoImagen($rutaImagen);
+            //var_dump($destino);
+            move_uploaded_file($imagen['tmp_name'], $destino); 
+            $pedido->imagen = $destino;      
+        }
     
         if(Mesa::TraerMesaPorID($idMesa) && Usuario::VerificarMesero($idMozo)){
             $pedido->CrearPedido();

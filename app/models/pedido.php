@@ -6,6 +6,7 @@ class Pedido{
     public $estado;
     public $tiempoEstimado;
     public $productos;
+    public $imagen;
     public $activo;
 
     public function CrearPedido()
@@ -13,7 +14,7 @@ class Pedido{
         $productosJson =  json_encode($this->productos);
 
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMozo, idMesa, estado, tiempoEstimado, productos, activo) VALUES (:idMozo, :idMesa, :estado, :tiempoEstimado, :productos, :activo)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMozo, idMesa, estado, tiempoEstimado, productos, imagen, activo) VALUES (:idMozo, :idMesa, :estado, :tiempoEstimado, :productos, :imagen, :activo)");
 
         $estadoInicial = 'En espera';
         $consulta->bindValue(':idMozo', $this->idMozo, PDO::PARAM_INT);
@@ -21,9 +22,18 @@ class Pedido{
         $consulta->bindValue(':estado', $estadoInicial, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_INT);
         $consulta->bindValue(':productos', $productosJson, PDO::PARAM_STR);
+        $consulta->bindValue(':imagen', $this->imagen, PDO::PARAM_STR);
         $consulta->bindValue(':activo', $this->activo, PDO::PARAM_INT);
 
         $consulta->execute();
+    }
+
+    public function DefinirDestinoImagen($ruta){
+        //$destino = str_replace('\\', '/', $ruta).$this->idMesa.".png";
+        //return $destino;
+
+        $destino = $ruta."\\".$this->idMesa.".png";
+        return $destino;
     }
 
     public static function TraerPedidos(){
