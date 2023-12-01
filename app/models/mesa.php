@@ -80,6 +80,15 @@ class Mesa{
    
         return $consulta->execute();
     }
+
+    public static function getMostPopular(): false|Mesa
+    {
+        $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
+        $consulta =$objetoAccesoDato->prepararConsulta('SELECT * FROM mesa WHERE id = (SELECT idMesa FROM pedido GROUP BY idMesa ORDER BY COUNT(*) DESC LIMIT 1)');
+        $consulta->execute();
+        $mesa = $consulta->fetchObject();
+        return $mesa; 
+    }
     
 }
 ?>

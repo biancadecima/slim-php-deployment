@@ -68,6 +68,7 @@ class ProductoController{
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+
     
 }
 ?>

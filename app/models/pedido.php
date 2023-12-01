@@ -1,29 +1,22 @@
 <?php
 class Pedido{
     public $id;
-    public $idMozo;
     public $idMesa;
+    public $nombreCliente;
+    public $precio;
     public $estado;
     public $tiempoEstimado;
-    public $productos;
-    public $imagen;
-    public $activo;
 
-    public function CrearPedido()
-    {
-        $productosJson =  json_encode($this->productos);
-
+    public function CrearPedido(){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMozo, idMesa, estado, tiempoEstimado, productos, imagen, activo) VALUES (:idMozo, :idMesa, :estado, :tiempoEstimado, :productos, :imagen, :activo)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMesa, nombreCliente, estado, tiempoEstimado, precio) VALUES (:idMesa, :nombreCliente, :estado, :tiempoEstimado, :precio)");
 
-        $estadoInicial = 'En espera';
-        $consulta->bindValue(':idMozo', $this->idMozo, PDO::PARAM_INT);
+        //$estadoInicial = 'En espera';
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
-        $consulta->bindValue(':estado', $estadoInicial, PDO::PARAM_STR);
+        $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_INT);
-        $consulta->bindValue(':productos', $productosJson, PDO::PARAM_STR);
-        $consulta->bindValue(':imagen', $this->imagen, PDO::PARAM_STR);
-        $consulta->bindValue(':activo', $this->activo, PDO::PARAM_INT);
+        $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
 
         $consulta->execute();
     }
@@ -32,14 +25,14 @@ class Pedido{
         //$destino = str_replace('\\', '/', $ruta).$this->idMesa.".png";
         //return $destino;
 
-        $destino = $ruta."\\".$this->idMesa.".png";
+        $destino = $ruta."\\".$this->idMesa."-".$this->id.".png";
         return $destino;
     }
 
     public static function TraerPedidos(){
         $pedido = null;
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
-        $consulta =$objetoAccesoDato->prepararConsulta("SELECT * FROM pedido where activo = 1");
+        $consulta =$objetoAccesoDato->prepararConsulta("SELECT * FROM pedido");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
@@ -48,7 +41,7 @@ class Pedido{
     public static function TraerPedidoPorID($id)
     {
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
-        $consulta = $objetoAccesoDato->prepararConsulta("SELECT * from pedido where id = ? and activo = 1");
+        $consulta = $objetoAccesoDato->prepararConsulta("SELECT * from pedido where id = ?");
         $consulta->bindValue(1, $id, PDO::PARAM_INT);
         $consulta->execute();
         $pedido = $consulta->fetchObject('Pedido');
@@ -57,7 +50,7 @@ class Pedido{
 
     public function ActualizarEstadoPedido($estado){
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
-        $consulta =$objetoAccesoDato->prepararConsulta("UPDATE pedido SET estado = ?, tiempoEstimado = ? WHERE id = ? and activo = 1");
+        $consulta =$objetoAccesoDato->prepararConsulta("UPDATE pedido SET estado = ?, tiempoEstimado = ? WHERE id = ?");
         $consulta->bindValue(1, $estado, PDO::PARAM_STR);
         $consulta->bindValue(2, $this->tiempoEstimado, PDO::PARAM_STR);
         $consulta->bindValue(3, $this->id, PDO::PARAM_INT);
@@ -66,12 +59,12 @@ class Pedido{
 
     public static function EliminarPedido($id){ // debe ser una baja logica
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedido SET activo = 0 WHERE id = ?");
+        $consulta = $objAccesoDatos->prepararConsulta("UPDATE pedido SET estado = terminado WHERE id = ?");
         $consulta->bindValue(1, $id, PDO::PARAM_INT);
         return $consulta->execute();
     }
 
-    public static function ModificarPedido($id, $idMozo, $idMesa, $estado, $tiempoEstimado, $productos){ //no se como plantearlo
+    public static function ModificarPedido($id, $idMozo, $idMesa, $estado, $tiempoEstimado, $productos){
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
         $consulta =$objetoAccesoDato->prepararConsulta("UPDATE pedido SET idMozo = ?, idMesa = ?, estado = ?, tiempoEstimado = ?, productos = ? WHERE id = ?");
         $consulta->bindValue(1, $idMozo, PDO::PARAM_INT);
@@ -82,6 +75,8 @@ class Pedido{
         $consulta->bindValue(6, $id, PDO::PARAM_INT);
         return $consulta->execute();
     }
+
+    
     
 }
 ?>

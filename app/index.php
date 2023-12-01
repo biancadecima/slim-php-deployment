@@ -11,10 +11,13 @@ require_once './controllers/UsuarioController.php';
 require_once './controllers/MesaController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/PedidoController.php';
-require_once './db/dataAccess.php';
+require_once './controllers/ProductoPedidoController.php';
+require_once './controllers/LoginController.php';
+//require_once './db/dataAccess.php';
 require_once './middlewares/autenticadorMW.php';
-require_once 'C:\xampp\htdocs\slim-php-deployment\app\middlewares\loggerMV.php';
-require_once 'C:\xampp\htdocs\slim-php-deployment\app\controllers\LoginController.php';
+require_once './middlewares/loggerMV.php';
+
+
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -32,44 +35,68 @@ $app->group('/auth', function (RouteCollectorProxy $group) {
 });
 
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
-    $group->get('[/]', \UsuarioController::class . ':ObtenerUsuarios')
-        ->add(new LoggerMW())
-        ->add(new AuthenticatorMW('socio'));
-    $group->post('[/]', \UsuarioController::class . ':AltaUsuario')
-    ->add(new LoggerMW())
-    ->add(new AuthenticatorMW('socio'));
-    $group->post('/baja', \UsuarioController::class . ':BajaUsuario')
-        ->add(new LoggerMW())
-        ->add(new AuthenticatorMW('socio'));
-    $group->post('/modificar', \UsuarioController::class . ':ModificarUsuario')
-        ->add(new LoggerMW())
-        ->add(new AuthenticatorMW('socio'));
-    $group->get('/guardar', \UsuarioController::class . ':GuardarUsuarios');
-    $group->get('/cargar', \UsuarioController::class . ':CargarUsuarios');
-});
+    $group->get('[/]', \UsuarioController::class . ':ObtenerUsuarios');
+    $group->post('[/]', \UsuarioController::class . ':AltaUsuario');
+    $group->post('/baja', \UsuarioController::class . ':BajaUsuario');
+    $group->post('/modificar', \UsuarioController::class . ':ModificarUsuario');
+})->add(new LoggerMW())
+->add(new AuthenticatorMW('socio'));
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \MesaController::class . ':ObtenerMesas');
     $group->post('[/]', \MesaController::class . ':AltaMesa');
     $group->post('/baja', \MesaController::class . ':BajaMesa');
     $group->post('/modificar', \MesaController::class . ':ModificarMesa');
+    $group->get('/popular', \MesaController::class . ':TraerMasUsada')
+    ->add(new AuthenticatorMW('socio'));
+    //Alguno de los socios cierra la mesa.
+    //13- Alguno de los socios pide la mesa más usada.
 });
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ProductoController::class . ':ObtenerProductos');
     $group->post('[/]', \ProductoController::class . ':AltaProducto');
-    $group->post('/baja', \ProductoController::class . ':BajaProducto')/*->add(new AuthenticatorMW('socio'))*/;
-    $group->post('/modificar', \ProductoController::class . ':ModificarProducto')/*->add(new AuthenticatorMW())*/;
+    $group->post('/baja', \ProductoController::class . ':BajaProducto');
+    $group->post('/modificar', \ProductoController::class . ':ModificarProducto');
 });
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':ObtenerPedidos');
     $group->post('/estado', \PedidoController::class . ':ModificarEstado');
     $group->post('[/]', \PedidoController::class . ':AltaPedido');
-    $group->post('/baja', \PedidoController::class . ':BajaPedido')/*->add(new AuthenticatorMW('socio'))*/;
-    $group->post('/modificar', \PedidoController::class . ':ModificarPedido')/*->add(new AuthenticatorMW())*/;
+    $group->post('/baja', \PedidoController::class . ':BajaPedido');
+    $group->post('/modificar', \PedidoController::class . ':ModificarPedido');
+    //4- El cliente ingresa el código de la mesa junto con el número de pedido y ve el tiempo de demora de su pedido.
+    //La moza se fija los pedidos que están listos para servir
+})->add(new LoggerMW())
+->add(new AuthenticatorMW('mesero'));
+
+$app->group('/productopedido', function (RouteCollectorProxy $group) 
+{
+    $group->get('[/]', \ProductoPedidoController::class . ':ObtenerProductoPedidos');
+    $group->get('/{id}', \ProductoPedidoController::class . ':ObtenerUnProductoPedido');
+    $group->get('/tipoProducto/{tipoProducto}', \ProductoPedidoController::class . ':TraerTipoProducto');
+    $group->post('[/]', \ProductoPedidoController::class . ':AltaProductoPedido');
+    $group->put('/{id}', \ProductoPedidoController::class . ':ModificarProductoPedido');
+    //$group->delete('[/]', \ProductoPedidoController::class . ':Borrar');
 });
 
+$app->group('/encuestas', function (RouteCollectorProxy $group) 
+{
+    $group->get('/comentarios', \EncuestaController::class . ':TraerMejoresComentarios');
+    $group->get('[/]', \EncuestaController::class . ':TraerTodos');
+    $group->get('/{id}', \EncuestaController::class . ':TraerUno');
+    $group->post('[/]', \EncuestaController::class . ':Insertar');
+    $group->put('/{id}', \EncuestaController::class . ':Modificar');
+    $group->delete('[/]', \EncuestaController::class . ':Borrar');
+    //12- Alguno de los socios pide los mejores comentarios
+    
+});
+
+$app->group('/csv', function (RouteCollectorProxy $group) {
+    $group->get('/guardar', \UsuarioController::class . ':GuardarUsuarios');
+    $group->get('/cargar', \UsuarioController::class . ':CargarUsuarios');
+});
 
 
 $app->run();

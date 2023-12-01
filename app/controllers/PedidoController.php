@@ -5,52 +5,25 @@ class PedidoController{
     public static function AltaPedido($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
-    
-        $idMozo = $parametros['idMozo'];
-        $idMesa = $parametros['idMesa'];
-        $stringProductos = $parametros['productos'];
-        $array_idsProductos = explode(",", $stringProductos);
-        $productos = array();
-        foreach($array_idsProductos as $id){
-            if(Producto::TraerProducto_Id($id) != false){
-                array_push($productos, Producto::TraerProducto_Id($id));
-            }
-        }
-
-        $tiemposEnSegundos = array_map(function($producto) {
-            list($horas, $minutos, $segundos) = explode(':', $producto->tiempoEstimado);
-            return $horas * 3600 + $minutos * 60 + $segundos;
-        }, $productos);
-        
-        $indiceProductoMayor = array_search(max($tiemposEnSegundos), $tiemposEnSegundos);
-        $producto_mayor = $productos[$indiceProductoMayor];
-
-        $pedido = new Pedido();
-        $pedido->idMozo = $idMozo;
-        $pedido->idMesa = $idMesa;
-        $pedido->tiempoEstimado = $producto_mayor->tiempoEstimado;
-        $pedido->productos = json_encode($productos);
-        $pedido->activo = 1;
-        if(isset($_FILES['imagen'])){
-            $rutaImagen ='C:\xampp\htdocs\slim-php-deployment\images';
-            $imagen = $_FILES['imagen'];
-            //var_dump($imagen);
-            $destino = $pedido->DefinirDestinoImagen($rutaImagen);
-            //var_dump($destino);
-            move_uploaded_file($imagen['tmp_name'], $destino); 
-            $pedido->imagen = $destino;      
-        }
-    
-        if(Mesa::TraerMesaPorID($idMesa) && Usuario::VerificarMesero($idMozo)){
+        if(isset($parametros['nombreCliente']) && isset($parametros['precio']) && isset($parametros['idMesa']))
+        {
+            $pedido = new Pedido();
+            $pedido->nombreCliente = $parametros['nombreCliente']; // aca esta igual y anda
+            $pedido->precio = $parametros['precio'];
+            $pedido->estado = "Pendiente";
+            $pedido->tiempoEstimado = 0;
+            $pedido->idMesa = $parametros['idMesa'];
             $pedido->CrearPedido();
             $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
-        }else{
-            $payload = json_encode(array("mensaje" => "No se pudo crear el pedido por error de datos"));
         }
-       
-    
+        else
+        {
+            $payload = json_encode(array("error" => "No se pudo crear el pedido"));
+        }
+
         $response->getBody()->write($payload);
-        return $response->withHeader('Content-Type', 'application/json');
+        return $response
+          ->withHeader('Content-Type', 'application/json');
     }
 
     public static function ObtenerPedidos($request, $response, $args){
@@ -63,8 +36,6 @@ class PedidoController{
 
     public static function ModificarEstado($request, $response, $args){
         $parametros = $request->getParsedBody();
-        // me traigo el pedido con el id ingresado por body
-        $pedido = new Pedido();
         $id = $parametros['id'];
         $estado = $parametros['estado'];
 
@@ -138,6 +109,24 @@ class PedidoController{
             $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
         }else{
             $payload = json_encode(array("mensaje" => "Error en modificar Pedido"));
+        }
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function RelacionarFoto($request, $response, $args){
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $pedido = Pedido::TraerPedidoPorID($id);
+        if(isset($_FILES['imagen'])){
+            $rutaImagen ='C:\xampp\htdocs\slim-php-deployment\images';
+            $imagen = $_FILES['imagen'];
+            $destino = $pedido->DefinirDestinoImagen($rutaImagen);
+            if(move_uploaded_file($imagen['tmp_name'], $destino)){
+                $payload = json_encode(array("mensaje" => "Imagen del pedido relacionada con exito"));
+            }else{
+                $payload = json_encode(array("mensaje" => "Error en relacionar imagen con Pedido"));
+            } 
         }
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

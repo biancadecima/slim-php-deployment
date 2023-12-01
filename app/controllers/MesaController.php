@@ -93,6 +93,17 @@ class MesaController{
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    public function getMostPopular($request, $response, $args)
+    {
+        if (($table = $this->tableService->getMostPopular()) === false) {
+            return $response->withStatus(404, 'No se encontró la mesa');
+        }
+
+        $response->getBody()->write(json_encode(['mesa' => $table]));
+
+        return $response->withStatus(200, 'OK');
+    }
+
     
 }
 ?>
