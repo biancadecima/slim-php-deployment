@@ -12,8 +12,6 @@ class MesaController{
         $mesa->estado = $estado;
 
         $mesa->CrearMesa();
-
-
         $payload = json_encode(array("mensaje" => "Mesa creado con exito"));
 
         $response->getBody()->write($payload);
@@ -30,10 +28,6 @@ class MesaController{
         return $response
             ->withHeader('Content-Type', 'application/json');
     }
-
-    /*public static function ModificarEstado($request, $response, $args){
-        
-    }*/
 
     public static function CambiarEstadoMesaPorPedido($id_pedido){
         $pedido = Pedido::TraerPedidoPorID($id_pedido);
@@ -93,17 +87,33 @@ class MesaController{
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    public function getMostPopular($request, $response, $args)
+    public static function TraerMasUsada($request, $response, $args)
     {
-        if (($table = $this->tableService->getMostPopular()) === false) {
-            return $response->withStatus(404, 'No se encontró la mesa');
+        if (($mesa = Mesa::TraerMasUsada()) === false) {
+            $payload = json_encode(array("mensaje" => "No se encontró la mesa"));
         }
 
-        $response->getBody()->write(json_encode(['mesa' => $table]));
+        $payload = (json_encode(['mesa' => $mesa]));
 
-        return $response->withStatus(200, 'OK');
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    
+    public function CerrarMesa($request, $response, $args){
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $mesa = Mesa::TraerMesaPorID($id);
+        if($mesa){
+            $mesa->estado = "cerrada";
+            Mesa::ModificarMesa($id, $mesa->estado);
+            $payload = json_encode(array("mensaje" => "Mesa cerrada con exito"));
+        }else{
+            $payload = json_encode(array("mensaje" => "Error en cerrar Mesa"));
+        }
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+ 
 }
 ?>

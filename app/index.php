@@ -49,8 +49,8 @@ $app->group('/mesas', function (RouteCollectorProxy $group) {
     $group->post('/modificar', \MesaController::class . ':ModificarMesa');
     $group->get('/popular', \MesaController::class . ':TraerMasUsada')
     ->add(new AuthenticatorMW('socio'));
-    //Alguno de los socios cierra la mesa.
-    //13- Alguno de los socios pide la mesa más usada.
+    $group->post('/cerrar', \MesaController::class . ':CerrarMesa')
+    ->add(new AuthenticatorMW('socio'));
 });
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
@@ -66,10 +66,9 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \PedidoController::class . ':AltaPedido');
     $group->post('/baja', \PedidoController::class . ':BajaPedido');
     $group->post('/modificar', \PedidoController::class . ':ModificarPedido');
-    //4- El cliente ingresa el código de la mesa junto con el número de pedido y ve el tiempo de demora de su pedido.
-    //La moza se fija los pedidos que están listos para servir
-})->add(new LoggerMW())
-->add(new AuthenticatorMW('mesero'));
+    $group->get('/tiempo', \PedidoController::class . ':ObtenerTiempo');
+    $group->get('/listos', \PedidoController::class . ':ObtenerListosParaServir');
+})->add(new AuthenticatorMW('mesero'));
 
 $app->group('/productopedido', function (RouteCollectorProxy $group) 
 {
@@ -79,6 +78,7 @@ $app->group('/productopedido', function (RouteCollectorProxy $group)
     $group->post('[/]', \ProductoPedidoController::class . ':AltaProductoPedido');
     $group->put('/{id}', \ProductoPedidoController::class . ':ModificarProductoPedido');
     //$group->delete('[/]', \ProductoPedidoController::class . ':Borrar');
+    //Debe cambiar el estado a “en preparación” y agregarle el tiempo de preparación.
 });
 
 $app->group('/encuestas', function (RouteCollectorProxy $group) 

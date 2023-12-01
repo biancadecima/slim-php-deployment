@@ -30,7 +30,6 @@ class Pedido{
     }
 
     public static function TraerPedidos(){
-        $pedido = null;
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
         $consulta =$objetoAccesoDato->prepararConsulta("SELECT * FROM pedido");
         $consulta->execute();
@@ -76,6 +75,13 @@ class Pedido{
         return $consulta->execute();
     }
 
+    public static function TraerPedidosListosParaServir(){
+        $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
+        $consulta =$objetoAccesoDato->prepararConsulta("SELECT * FROM pedido where estado = listo para servir");
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+	}
     
     
 }

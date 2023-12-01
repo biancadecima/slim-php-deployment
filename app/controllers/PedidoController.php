@@ -131,6 +131,27 @@ class PedidoController{
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function ObtenerTiempo($request, $response, $args){
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $pedido = Pedido::TraerPedidoPorID($id);
+        if($pedido){
+            $payload = json_encode(array("mensaje" => "El tiempo estimado del pedido es de $pedido->tiempoEstimado"));
+        }else{
+            $payload = json_encode(array("mensaje" => "No se encontró la mesa"));
+        }
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public static function ObtenerListosParaServir($request, $response, $args){
+        $pedidos = Pedido::TraerPedidosListosParaServir();
+        $payload = json_encode(array("lista" => $pedidos));
+        $response->getBody()->write($payload);
+        return $response
+            ->withHeader('Content-Type', 'application/json');
+    }
 }
 
 ?>
