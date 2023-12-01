@@ -4,7 +4,7 @@ class Producto{
     public $descripcion;
     public $sector;
     public $precio;
-    public $tiempoEstimado;
+    //public $tiempoEstimado;
     public $activo;
 
     public function __construct($descripcion, $sector, $precio, $tiempoEstimado, $activo, $id = null)
@@ -12,7 +12,7 @@ class Producto{
         $this->descripcion = $descripcion;
         $this->sector = $sector;
         $this->precio = $precio;
-        $this->tiempoEstimado = $tiempoEstimado;
+        //$this->tiempoEstimado = $tiempoEstimado;
         $this->activo = $activo;
         if($id != null){
             $this->id = $id;
@@ -26,7 +26,7 @@ class Producto{
         $consulta->bindValue(':descripcion', $this->descripcion, PDO::PARAM_STR);
         $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
-        $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_STR);
+        //$consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_STR);
         $consulta->bindValue(':activo', $this->activo, PDO::PARAM_INT);
         $consulta->execute();
     }
@@ -74,5 +74,7 @@ class Producto{
    
         return $consulta->execute();
     }
+
+    
     
 }

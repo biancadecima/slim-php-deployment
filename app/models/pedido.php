@@ -2,21 +2,25 @@
 class Pedido{
     public $id;
     public $idMesa;
+    public $idMozo;
     public $nombreCliente;
     public $precio;
     public $estado;
     public $tiempoEstimado;
+    public $imagenMesa;
 
     public function CrearPedido(){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMesa, nombreCliente, estado, tiempoEstimado, precio) VALUES (:idMesa, :nombreCliente, :estado, :tiempoEstimado, :precio)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMesa, idMozo, nombreCliente, estado, tiempoEstimado, precio, imagenMesa) VALUES (:idMesa, :idMozo, :nombreCliente, :estado, :tiempoEstimado, :precio, :imagenMesa)");
 
         //$estadoInicial = 'En espera';
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
+        $consulta->bindValue(':idMesa', $this->idMozo, PDO::PARAM_INT);
         $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_INT);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
+        $consulta->bindValue(':imagenMesa', $this->imagenMesa, PDO::PARAM_STR);
 
         $consulta->execute();
     }
@@ -26,6 +30,13 @@ class Pedido{
         //return $destino;
 
         $destino = $ruta."\\".$this->idMesa."-".$this->id.".png";
+        return $destino;
+    }
+
+    public static function GuardarImagenPedido($ruta, $urlImagen, $idMesa, $nombreCliente)
+    {
+        $destino = $ruta ."\\". $idMesa . "-" . $nombreCliente . ".jpg";  
+        move_uploaded_file($urlImagen["tmp_name"], $destino);
         return $destino;
     }
 
@@ -47,12 +58,11 @@ class Pedido{
         return $pedido;
     }
 
-    public function ActualizarEstadoPedido($estado){
+    public static function ActualizarEstadoPedido($id, $estado){
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
-        $consulta =$objetoAccesoDato->prepararConsulta("UPDATE pedido SET estado = ?, tiempoEstimado = ? WHERE id = ?");
+        $consulta =$objetoAccesoDato->prepararConsulta("UPDATE pedido SET estado = ? WHERE id = ?");
         $consulta->bindValue(1, $estado, PDO::PARAM_STR);
-        $consulta->bindValue(2, $this->tiempoEstimado, PDO::PARAM_STR);
-        $consulta->bindValue(3, $this->id, PDO::PARAM_INT);
+        $consulta->bindValue(2, $id, PDO::PARAM_INT);
         return $consulta->execute();
     }
 
@@ -83,6 +93,79 @@ class Pedido{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
 	}
     
+    public static function ActualizarEstadoYTiempo($id)
+    {
+        $objAcessoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAcessoDatos->prepararConsulta("UPDATE pedido SET estado = :estado, tiempoEstimado = :tiempoEstimado WHERE id = :id");
+
+        $tiempoEstimado = Pedido::ObtenerTiempoEstimado($id);
+        $estadoDelPedido = Pedido::ObtenerEstado($id);
+
+        $consulta->bindValue(':codigoPedido', $id, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $estadoDelPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempoEstimado', $tiempoEstimado, PDO::PARAM_STR);
+        //$consulta->bindValue(':fechaModificacion', date('Y-m-d'), PDO::PARAM_STR);
+
+        $consulta->execute();
+    }
+
+    public static function SumarPrecio($id, $precioprod)
+    {
+        $objAcessoDatos = AccesoDatos::ObtenerInstancia();
+
+        $consulta = $objAcessoDatos->PrepararConsulta("UPDATE pedidos SET precio = precio + :precioprod WHERE id = :id");
+        
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->bindValue(':precioprod', $precioprod, PDO::PARAM_INT);
+
+        $consulta->execute();
+
+        return $consulta->rowCount();
+
+    }
+
+    public static function ObtenerTiempoEstimado($id){
+        $lista = ProductoPedido::TraerPorIdPedido($id);
+        $tiemposEstimados = array();
+        $tiempoMasAlto = 0;
+        foreach($lista as $value)
+        {
+            $tiemposEstimados[] = $value->tiempoEstimado;
+        }
+        $tiempoMasAlto = max($tiemposEstimados);
+        return $tiempoMasAlto;
+    }
+    public static function ObtenerEstado($id){
+        $lista = ProductoPedido::TraerPorIdPedido($id);
+        $estados = array();
+        $estadoRetorno = null;
+        foreach($lista as $value){
+            if($value->estadoDelProducto == "Pendiente"){
+                $estadoRetorno = "Pendiente";
+                break;
+            }
+
+            if($value->estadoDelProducto == "En Preparacion" || $value->estadoDelProducto == "Listo Para Servir"){
+                $estados[] = $value->estadoDelProducto;
+                
+            }
+            
+        }
+
+        if($estadoRetorno == null)
+        {
+            if(in_array("En Preparacion", $estados))
+            {
+                $estadoRetorno = "En Preparacion";
+            }
+            else if(in_array("Listo Para Servir", $estados))
+            {
+                $estadoRetorno = "Listo Para Servir";
+            }
+        }
+
+        return $estadoRetorno;
+    }
     
 }
 ?>

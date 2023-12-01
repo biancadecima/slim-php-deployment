@@ -71,6 +71,23 @@ class ProductoPedido{
         $consulta->bindValue(':id', $productoPedido->id);
         $consulta->execute();
     }
+
+    public static function ModificarEstadoYTiempo($idProducto, $nuevoEstado, $tiempoEstimado)
+    {
+        $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
+
+        $consulta = $objetoAccesoDato->prepararConsulta("UPDATE producto SET estado = :estado, tiempoPreparacion = :tiempoPreparacion
+        WHERE id = :id");
+
+        $consulta->bindValue(':id', $idProducto, PDO::PARAM_INT);
+        $consulta->bindValue(':estado', $nuevoEstado, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempoPreparacion', $tiempoEstimado, PDO::PARAM_INT);
+
+        $consulta->execute();
+
+        return $consulta->rowCount(); //retorna la cantidad de filas afectadas
+
+    }
     
 }
 ?>

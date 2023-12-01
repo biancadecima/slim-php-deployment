@@ -62,12 +62,13 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':ObtenerPedidos');
-    $group->post('/estado', \PedidoController::class . ':ModificarEstado');
     $group->post('[/]', \PedidoController::class . ':AltaPedido');
     $group->post('/baja', \PedidoController::class . ':BajaPedido');
     $group->post('/modificar', \PedidoController::class . ':ModificarPedido');
     $group->get('/tiempo', \PedidoController::class . ':ObtenerTiempo');
     $group->get('/listos', \PedidoController::class . ':ObtenerListosParaServir');
+    //$group->post('/estado', \PedidoController::class . ':ModificarEstado');
+
 })->add(new AuthenticatorMW('mesero'));
 
 $app->group('/productopedido', function (RouteCollectorProxy $group) 
@@ -84,11 +85,11 @@ $app->group('/productopedido', function (RouteCollectorProxy $group)
 $app->group('/encuestas', function (RouteCollectorProxy $group) 
 {
     $group->get('/comentarios', \EncuestaController::class . ':TraerMejoresComentarios');
-    $group->get('[/]', \EncuestaController::class . ':TraerTodos');
-    $group->get('/{id}', \EncuestaController::class . ':TraerUno');
-    $group->post('[/]', \EncuestaController::class . ':Insertar');
-    $group->put('/{id}', \EncuestaController::class . ':Modificar');
-    $group->delete('[/]', \EncuestaController::class . ':Borrar');
+    $group->get('[/]', \EncuestaController::class . ':ObtenerEncuestas');
+    $group->get('/{id}', \EncuestaController::class . ':ObtenerUnaEncuesta');
+    $group->post('[/]', \EncuestaController::class . ':AltaEncuesta');
+   // $group->put('/{id}', \EncuestaController::class . ':Modificar');
+   // $group->delete('[/]', \EncuestaController::class . ':Borrar');
     //12- Alguno de los socios pide los mejores comentarios
     
 });

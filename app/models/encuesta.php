@@ -2,6 +2,7 @@
 class Encuesta{
     public $id;
     public $idMesa;
+    public $idPedido;
     public $nombreCliente;
     public $descripcion;
     public $puntuacionMesa;
@@ -10,7 +11,7 @@ class Encuesta{
     public $puntuacionRestaurant;
     public $estado;
 
-    public static function InsertarEncuesta($encuesta)
+    public static function CrearEncuesta($encuesta)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 
@@ -26,7 +27,7 @@ class Encuesta{
         $consulta->execute();
     }
 
-    public static function TraerTodos()
+    public static function TraerEncuestas()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas");
@@ -35,7 +36,7 @@ class Encuesta{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Encuesta');
     }
 
-    public static function TraerUno($id)
+    public static function TraerPorId($id)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas WHERE id = :id");
@@ -43,6 +44,15 @@ class Encuesta{
         $consulta->execute();
 
         return $consulta->fetchObject('Encuesta');
+    }
+
+    public static function TraerMejoresComentarios()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas ORDER BY puntuacionRestaurant DESC");
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Encuesta');
     }
 }
 ?>

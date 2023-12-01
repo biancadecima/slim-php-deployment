@@ -1,5 +1,5 @@
 <?php
-require_once './models/ProductoPedido.php';
+require_once './models/encuesta.php';
 class EncuestaController{
     public function AltaEncuesta($request, $response, $args){
         $parametros = $request->getParsedBody();
@@ -43,13 +43,26 @@ class EncuestaController{
 
     public function ObtenerUnaEncuesta($request, $response, $args)
     {
-        $id = $args['id'];
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
         $encuesta = Encuesta::TraerPorId($id);
         $payload = json_encode($encuesta);
 
         $response->getBody()->write($payload);
         return $response
           ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerMejoresComentarios($request, $response, $args)
+    {
+        $lista = Encuesta::TraerMejoresComentarios();
+
+        $payload = json_encode($lista);
+
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+
     }
 
 }
