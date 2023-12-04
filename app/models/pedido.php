@@ -11,11 +11,11 @@ class Pedido{
 
     public function CrearPedido(){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMesa, idMozo, nombreCliente, estado, tiempoEstimado, precio, imagenMesa) VALUES (:idMesa, :idMozo, :nombreCliente, :estado, :tiempoEstimado, :precio, :imagenMesa)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedido (idMozo, idMesa, nombreCliente, estado, tiempoEstimado, precio, imagenMesa) VALUES (:idMozo, :idMesa, :nombreCliente, :estado, :tiempoEstimado, :precio, :imagenMesa)");
 
         //$estadoInicial = 'En espera';
         $consulta->bindValue(':idMesa', $this->idMesa, PDO::PARAM_INT);
-        $consulta->bindValue(':idMesa', $this->idMozo, PDO::PARAM_INT);
+        $consulta->bindValue(':idMozo', $this->idMozo, PDO::PARAM_INT);
         $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_INT);
@@ -23,15 +23,16 @@ class Pedido{
         $consulta->bindValue(':imagenMesa', $this->imagenMesa, PDO::PARAM_STR);
 
         $consulta->execute();
+        return $objAccesoDatos->obtenerUltimoId();
     }
 
-    public function DefinirDestinoImagen($ruta){
-        //$destino = str_replace('\\', '/', $ruta).$this->idMesa.".png";
-        //return $destino;
-
-        $destino = $ruta."\\".$this->idMesa."-".$this->id.".png";
+    /*public function DefinirDestinoImagen($ruta){
+        $destino = str_replace('\\', '/', $ruta).$this->idMesa."-".$this->id.".png";
         return $destino;
-    }
+
+        //$destino = $ruta."\\".$this->idMesa."-".$this->id.".png";
+        //return $destino;
+    }*/
 
     public static function GuardarImagenPedido($ruta, $urlImagen, $idMesa, $nombreCliente)
     {
@@ -79,7 +80,7 @@ class Pedido{
         $consulta->bindValue(1, $idMozo, PDO::PARAM_INT);
         $consulta->bindValue(2, $idMesa, PDO::PARAM_INT);
         $consulta->bindValue(3, $estado, PDO::PARAM_STR);
-        $consulta->bindValue(4, $tiempoEstimado, PDO::PARAM_STR);
+        $consulta->bindValue(4, $tiempoEstimado, PDO::PARAM_INT);
         $consulta->bindValue(5, $productos, PDO::PARAM_STR);
         $consulta->bindValue(6, $id, PDO::PARAM_INT);
         return $consulta->execute();
@@ -87,33 +88,16 @@ class Pedido{
 
     public static function TraerPedidosListosParaServir(){
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
-        $consulta =$objetoAccesoDato->prepararConsulta("SELECT * FROM pedido where estado = listo para servir");
+        $consulta =$objetoAccesoDato->prepararConsulta("SELECT * FROM pedido WHERE estado = 'Listo Para Servir'");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
 	}
-    
-    public static function ActualizarEstadoYTiempo($id)
-    {
-        $objAcessoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAcessoDatos->prepararConsulta("UPDATE pedido SET estado = :estado, tiempoEstimado = :tiempoEstimado WHERE id = :id");
-
-        $tiempoEstimado = Pedido::ObtenerTiempoEstimado($id);
-        $estadoDelPedido = Pedido::ObtenerEstado($id);
-
-        $consulta->bindValue(':codigoPedido', $id, PDO::PARAM_STR);
-        $consulta->bindValue(':estado', $estadoDelPedido, PDO::PARAM_STR);
-        $consulta->bindValue(':tiempoEstimado', $tiempoEstimado, PDO::PARAM_STR);
-        //$consulta->bindValue(':fechaModificacion', date('Y-m-d'), PDO::PARAM_STR);
-
-        $consulta->execute();
-    }
-
     public static function SumarPrecio($id, $precioprod)
     {
         $objAcessoDatos = AccesoDatos::ObtenerInstancia();
 
-        $consulta = $objAcessoDatos->PrepararConsulta("UPDATE pedidos SET precio = precio + :precioprod WHERE id = :id");
+        $consulta = $objAcessoDatos->PrepararConsulta("UPDATE pedido SET precio = precio + :precioprod WHERE id = :id");
         
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->bindValue(':precioprod', $precioprod, PDO::PARAM_INT);
@@ -123,16 +107,31 @@ class Pedido{
         return $consulta->rowCount();
 
     }
+    public static function ActualizarEstadoYTiempo($id)
+    {
+        $objAcessoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAcessoDatos->prepararConsulta("UPDATE pedido SET estado = :estado, tiempoEstimado = :tiempoEstimado WHERE id = :id");
+
+        $tiempoEstimado = Pedido::ObtenerTiempoEstimado($id);
+        $estadoDelPedido = Pedido::ObtenerEstado($id);
+
+        $consulta->bindValue(':id', $id, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', $estadoDelPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':tiempoEstimado', $tiempoEstimado, PDO::PARAM_INT);
+        //$consulta->bindValue(':fechaModificacion', date('Y-m-d'), PDO::PARAM_STR);
+
+        $consulta->execute();
+    }
 
     public static function ObtenerTiempoEstimado($id){
         $lista = ProductoPedido::TraerPorIdPedido($id);
-        $tiemposEstimados = array();
+        $tiempoPreparacion = array();
         $tiempoMasAlto = 0;
         foreach($lista as $value)
         {
-            $tiemposEstimados[] = $value->tiempoEstimado;
+            $tiempoPreparacion[] = $value->tiempoPreparacion;
         }
-        $tiempoMasAlto = max($tiemposEstimados);
+        $tiempoMasAlto = max($tiempoPreparacion);
         return $tiempoMasAlto;
     }
     public static function ObtenerEstado($id){
@@ -140,13 +139,13 @@ class Pedido{
         $estados = array();
         $estadoRetorno = null;
         foreach($lista as $value){
-            if($value->estadoDelProducto == "Pendiente"){
+            if($value->estado == "Pendiente"){
                 $estadoRetorno = "Pendiente";
                 break;
             }
 
-            if($value->estadoDelProducto == "En Preparacion" || $value->estadoDelProducto == "Listo Para Servir"){
-                $estados[] = $value->estadoDelProducto;
+            if($value->estado == "En Preparacion" || $value->estado == "Listo Para Servir"){
+                $estados[] = $value->estado;
                 
             }
             

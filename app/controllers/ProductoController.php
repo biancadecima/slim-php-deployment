@@ -9,9 +9,9 @@ class ProductoController{
         $descripcion = $parametros['descripcion'];
         $sector = $parametros['sector'];
         $precio = $parametros['precio'];
-        $tiempoestimado = $parametros['tiempoEstimado'];
+       /* $tiempoestimado = $parametros['tiempoEstimado'];*/
 
-        $producto = new Producto($descripcion, $sector, $precio, $tiempoestimado, 1);
+        $producto = new Producto($descripcion, $sector, $precio, 1);
 
         $producto->CrearProducto();
 

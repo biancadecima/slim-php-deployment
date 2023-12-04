@@ -6,10 +6,10 @@ class MesaController{
     {
         $parametros = $request->getParsedBody();
 
-        $estado = $parametros['estado'];
+        //$estado = $parametros['estado'];
 
         $mesa = new Mesa();
-        $mesa->estado = $estado;
+        $mesa->estado = "cerrada";
 
         $mesa->CrearMesa();
         $payload = json_encode(array("mensaje" => "Mesa creado con exito"));
@@ -17,8 +17,6 @@ class MesaController{
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
-
-
 
     public static function ObtenerMesas($request, $response, $args)
     {
@@ -73,13 +71,12 @@ class MesaController{
         $mesa = Mesa::TraerMesaPorID($id);
         if($mesa){
             if (isset($parametros['estado'])){
-                $mesa->estado = $parametros['estado'];
+                $mesa->estado = $parametros['estado']; 
+                Mesa::ModificarMesa($id, $mesa->estado);
+                $payload = json_encode(array("mensaje" => "Mesa modificado con exito"));
             }else{
                 $payload = json_encode(array("mensaje" => "Parametros insuficientes"));
             }
-
-            Mesa::ModificarMesa($id, $mesa->estado);
-            $payload = json_encode(array("mensaje" => "Mesa modificado con exito"));
         }else{
             $payload = json_encode(array("mensaje" => "Error en modificar Mesa"));
         }
@@ -89,7 +86,7 @@ class MesaController{
 
     public static function TraerMasUsada($request, $response, $args)
     {
-        if (($mesa = Mesa::TraerMasUsada()) === false) {
+        if (($mesa = Mesa::TraerMasUsada()) == false) {
             $payload = json_encode(array("mensaje" => "No se encontró la mesa"));
         }
 

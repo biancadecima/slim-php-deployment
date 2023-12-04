@@ -49,10 +49,13 @@ class ProductoPedido{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'ProductoPedido');
     }
 
-    public static function TraerTipoProducto($sector)
+    public static function TraerSectorProducto($sector)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT pp.* FROM productopedido pp JOIN productos p ON pp.idProducto = p.id WHERE p.sector = :sector");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT pp.*
+        FROM productopedido pp
+        JOIN producto p ON pp.idProducto = p.id
+        WHERE p.sector = :sector AND pp.estado = 'Pendiente'");
         $consulta->bindValue(':sector', $sector);
         $consulta->execute();
 
@@ -76,16 +79,16 @@ class ProductoPedido{
     {
         $objetoAccesoDato = AccesoDatos::obtenerInstancia(); 
 
-        $consulta = $objetoAccesoDato->prepararConsulta("UPDATE producto SET estado = :estado, tiempoPreparacion = :tiempoPreparacion
+        $consulta = $objetoAccesoDato->prepararConsulta("UPDATE productopedido SET estado = :estado, tiempoPreparacion = :tiempoPreparacion
         WHERE id = :id");
 
         $consulta->bindValue(':id', $idProducto, PDO::PARAM_INT);
         $consulta->bindValue(':estado', $nuevoEstado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoPreparacion', $tiempoEstimado, PDO::PARAM_INT);
 
-        $consulta->execute();
+       return $consulta->execute();
 
-        return $consulta->rowCount(); //retorna la cantidad de filas afectadas
+         //$consulta->rowCount(); //retorna la cantidad de filas afectadas
 
     }
     

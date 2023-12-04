@@ -67,17 +67,18 @@ class ProductoPedidoController{
           ->withHeader('Content-Type', 'application/json');
     }
 
-    public function TraerTipoProducto($request, $response, $args)
+    public function TraerSectorProducto($request, $response, $args)
     {
-        $sector = $args['sector'];
-        $productoPedidosTipoProductos = ProductoPedido::TraerTipoProducto($sector);
+        $parametros = $request->getQueryParams();
+        $sector = $parametros['sector'];
+        $productoPedidosTipoProductos = ProductoPedido::TraerSectorProducto($sector);
         if($productoPedidosTipoProductos != false)
         {
             $payload = json_encode($productoPedidosTipoProductos);
         }
         else
         {
-            $payload = json_encode(array("error" => "No se pudo encontrar productos con ese tipo."));
+            $payload = json_encode(array("error" => "No se pudo encontrar productos pendientes con ese tipo."));
         }
 
     
@@ -120,7 +121,7 @@ class ProductoPedidoController{
         $estadoDelProducto = $params['nuevoEstado'];
         $tiempoEstimado = $params['tiempoEstimado'];
 
-        if(ProductoPedido::ModificarEstadoYTiempo($idProductoPedido, $estadoDelProducto, $tiempoEstimado) > 0)
+        if(ProductoPedido::ModificarEstadoYTiempo($idProductoPedido, $estadoDelProducto, $tiempoEstimado))
         {
             //$codigoDePedido = Pedido::ObtenerCodigoDePedidoPorIdProducto($idProducto);
             $productopedido = ProductoPedido::TraerPorId($idProductoPedido);

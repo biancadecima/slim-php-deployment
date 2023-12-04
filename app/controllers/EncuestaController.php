@@ -4,18 +4,19 @@ class EncuestaController{
     public function AltaEncuesta($request, $response, $args){
         $parametros = $request->getParsedBody();
 
-        if(isset($parametros['idMesa']) && isset($parametros['nombreCliente']) && isset($parametros['descripcion']) && isset($parametros['puntuacionMesa'])
+        if(isset($parametros['idMesa']) && isset($parametros['idPedido']) && isset($parametros['nombreCliente']) && isset($parametros['descripcion']) && isset($parametros['puntuacionMesa'])
          && isset($parametros['puntuacionMozo']) && isset($parametros['puntuacionCocinero']) && isset($parametros['puntuacionRestaurant']))
         {
             $encuesta = new Encuesta();
             $encuesta->idMesa = $parametros['idMesa'];
+            $encuesta->idMesa = $parametros['idPedido'];
             $encuesta->nombreCliente = $parametros['nombreCliente'];
             $encuesta->descripcion = $parametros['descripcion'];
             $encuesta->puntuacionMesa = $parametros['puntuacionMesa'];
             $encuesta->puntuacionMozo = $parametros['puntuacionMozo'];
             $encuesta->puntuacionCocinero = $parametros['puntuacionCocinero'];
             $encuesta->puntuacionRestaurant = $parametros['puntuacionRestaurant'];
-            $encuesta->estado = "Activo";
+            $encuesta->estado = 1;
             Encuesta::CrearEncuesta($encuesta);
             $payload = json_encode(array("mensaje" => "Encuesta creado con exito."));
         }

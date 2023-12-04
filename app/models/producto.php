@@ -1,4 +1,5 @@
 <?php
+require_once './db/dataAccess.php'; 
 class Producto{
     public $id;
     public $descripcion;
@@ -7,7 +8,7 @@ class Producto{
     //public $tiempoEstimado;
     public $activo;
 
-    public function __construct($descripcion, $sector, $precio, $tiempoEstimado, $activo, $id = null)
+    public function __construct($descripcion, $sector, $precio, $activo, $id = null)
     {
         $this->descripcion = $descripcion;
         $this->sector = $sector;
@@ -22,11 +23,10 @@ class Producto{
     public function CrearProducto()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO producto (descripcion, sector, precio, tiempoEstimado, activo) VALUES (:descripcion, :sector, :precio, :tiempoEstimado, :activo)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO producto (descripcion, sector, precio, activo) VALUES (:descripcion, :sector, :precio, :activo)");
         $consulta->bindValue(':descripcion', $this->descripcion, PDO::PARAM_STR);
         $consulta->bindValue(':sector', $this->sector, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
-        //$consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_STR);
         $consulta->bindValue(':activo', $this->activo, PDO::PARAM_INT);
         $consulta->execute();
     }
@@ -49,7 +49,7 @@ class Producto{
         $consulta->execute();
         $productoBuscado = $consulta->fetchObject();
         if($productoBuscado != false){
-            $producto = new Producto($productoBuscado->descripcion, $productoBuscado->sector, $productoBuscado->precio, $productoBuscado->tiempoEstimado, $productoBuscado->activo, $productoBuscado->id);
+            $producto = new Producto($productoBuscado->descripcion, $productoBuscado->sector, $productoBuscado->precio, /*$productoBuscado->tiempoEstimado,*/ $productoBuscado->activo, $productoBuscado->id);
         }else{
             return false;
         }

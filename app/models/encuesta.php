@@ -15,8 +15,9 @@ class Encuesta{
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
 
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT into encuestas (idMesa,nombreCliente,descripcion,puntuacionMesa,puntuacionMozo,puntuacionCocinero,puntuacionRestaurant,estado)values(:idMesa,:nombreCliente,:descripcion,:puntuacionMesa,:puntuacionMozo,:puntuacionCocinero,:puntuacionRestaurant,:estado)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT into encuesta (idMesa,idPedido,nombreCliente,descripcion,puntuacionMesa,puntuacionMozo,puntuacionCocinero,puntuacionRestaurant,estado)values(:idMesa,:idPedido,:nombreCliente,:descripcion,:puntuacionMesa,:puntuacionMozo,:puntuacionCocinero,:puntuacionRestaurant,:estado)");
         $consulta->bindValue(':idMesa', $encuesta->idMesa);
+        $consulta->bindValue(':idPedido', $encuesta->idMesa);
         $consulta->bindValue(':nombreCliente', $encuesta->nombreCliente);
         $consulta->bindValue(':descripcion', $encuesta->descripcion);
         $consulta->bindValue(':puntuacionMesa', $encuesta->puntuacionMesa);
@@ -30,7 +31,7 @@ class Encuesta{
     public static function TraerEncuestas()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuesta");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Encuesta');
@@ -39,7 +40,7 @@ class Encuesta{
     public static function TraerPorId($id)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas WHERE id = :id");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuesta WHERE id = :id");
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
 
@@ -49,7 +50,7 @@ class Encuesta{
     public static function TraerMejoresComentarios()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuestas ORDER BY puntuacionRestaurant DESC");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM encuesta ORDER BY puntuacionRestaurant DESC");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Encuesta');
