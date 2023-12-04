@@ -63,7 +63,7 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 
 $app->group('/pedidos', function (RouteCollectorProxy $group) {
     $group->get('[/]', \PedidoController::class . ':ObtenerPedidos');
-    $group->post('[/]', \PedidoController::class . ':AltaPedido');
+    $group->post('[/]', \PedidoController::class . ':AltaPedido')->add(new AuthenticatorMW('mesero'));
     $group->post('/baja', \PedidoController::class . ':BajaPedido');
     $group->post('/modificar', \PedidoController::class . ':ModificarPedido');
     $group->get('/tiempo', \PedidoController::class . ':ObtenerTiempo');
@@ -76,7 +76,7 @@ $app->group('/productopedido', function (RouteCollectorProxy $group)
 {
     $group->get('[/]', \ProductoPedidoController::class . ':ObtenerProductoPedidos');
     //$group->get('/{id}', \ProductoPedidoController::class . ':ObtenerUnProductoPedido'); tengo q cambiar la ruta pq pueden coincidir con $group->get('/sector'
-    $group->get('/sector', \ProductoPedidoController::class . ':TraerSectorProducto'); //Listar todos los productos pendientes de este tipo de empleado(sector del producto).
+    $group->get('/sector', \ProductoPedidoController::class . ':TraerSectorProducto')->add(new LoggerMW());
     $group->post('[/]', \ProductoPedidoController::class . ':AltaProductoPedido');
     //$group->put('/{id}', \ProductoPedidoController::class . ':ModificarProductoPedido');
     $group->post('/realizar', \ProductoPedidoController::class . ':EmpleadoTomaProducto');//Debe cambiar el estado a “en preparación” y agregarle el tiempo de preparación.
