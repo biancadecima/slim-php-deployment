@@ -6,8 +6,6 @@ class MesaController{
     {
         $parametros = $request->getParsedBody();
 
-        //$estado = $parametros['estado'];
-
         $mesa = new Mesa();
         $mesa->estado = "cerrada";
 

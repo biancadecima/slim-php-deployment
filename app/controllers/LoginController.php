@@ -1,7 +1,6 @@
 <?php
 require_once './models/usuario.php';
-//require_once './middlewares/autenticadorMW.php';
-require_once 'C:\xampp\htdocs\slim-php-deployment\utils\autenticadorJWT.php';
+require_once './utils/autenticadorJWT.php';
 class LoginController{
 
     public function logIn($request, $response, $args){

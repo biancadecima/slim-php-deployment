@@ -11,7 +11,6 @@ class UsuarioController{
         $username = $parametros['username'];
         $contrasenia = $parametros['contrasenia'];
 
-        // Creamos el usuario
         $usr = new Usuario();
         $usr->nombre = $nombre;
         $usr->apellido = $apellido;
@@ -113,18 +112,16 @@ class UsuarioController{
             $datos = str_getcsv($linea);
             var_dump($datos);
 
-            //if(isset($datos[1])){
-                $usuario = new Usuario();
-                $usuario->id = $datos[0];
-                $usuario->nombre = $datos[1];
-                $usuario->apellido = $datos[2];
-                $usuario->fechaRegistro = $datos[3];
-                $usuario->tipo = $datos[4];
-                $usuario->username = $datos[5];
-                $usuario->contrasenia = $datos[6];
-                $usuario->activo = $datos[7];
-                $usuario->CrearUsuario();
-            //}
+            $usuario = new Usuario();
+            $usuario->id = $datos[0];
+            $usuario->nombre = $datos[1];
+            $usuario->apellido = $datos[2];
+            $usuario->fechaRegistro = $datos[3];
+            $usuario->tipo = $datos[4];
+            $usuario->username = $datos[5];
+            $usuario->contrasenia = $datos[6];
+            $usuario->activo = $datos[7];
+            $usuario->CrearUsuario();
         }
         fclose($archivo);
                 

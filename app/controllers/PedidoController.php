@@ -1,6 +1,6 @@
 <?php
-require_once 'C:\xampp\htdocs\slim-php-deployment\app\models\pedido.php';
-require_once 'C:\xampp\htdocs\slim-php-deployment\app\models\mesa.php';
+require_once './models/pedido.php';
+require_once './models/mesa.php';
 class PedidoController{
 
     public static function AltaPedido($request, $response, $args){

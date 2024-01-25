@@ -113,7 +113,7 @@ class ProductoPedidoController{
           ->withHeader('Content-Type', 'application/json');
     }
 
-    public function EmpleadoTomaProducto($request, $response, $args) //se prepara el (producto)pedido (Debe cambiar el estado a “en preparación” y agregarle el tiempo de preparación.)
+    public function EmpleadoTomaProducto($request, $response, $args) 
     {
         $params = $request->getParsedBody();
 
@@ -123,7 +123,6 @@ class ProductoPedidoController{
 
         if(ProductoPedido::ModificarEstadoYTiempo($idProductoPedido, $estadoDelProducto, $tiempoEstimado))
         {
-            //$codigoDePedido = Pedido::ObtenerCodigoDePedidoPorIdProducto($idProducto);
             $productopedido = ProductoPedido::TraerPorId($idProductoPedido);
             Pedido::ActualizarEstadoYTiempo($productopedido->idPedido);
 

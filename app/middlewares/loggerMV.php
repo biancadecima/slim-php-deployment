@@ -3,7 +3,7 @@
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
-require_once 'C:\xampp\htdocs\slim-php-deployment\utils\autenticadorJWT.php';
+require_once './utils/autenticadorJWT.php';
 
 class LoggerMW
 {
