@@ -1,0 +1,1492 @@
+{
+	"info": {
+		"_postman_id": "f1382e12-6d4f-4871-a38c-b256bb7a629b",
+		"name": "comanda_tp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25702085"
+	},
+	"item": [
+		{
+			"name": "Comanda",
+			"item": [
+				{
+					"name": "LogIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "tompe",
+									"type": "text"
+								},
+								{
+									"key": "contrasenia",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AltaMesa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "estado",
+									"value": "cerrada",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AltaPedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE2MzMyMDQsImV4cCI6MTcwMTY5MzIwNCwiYXVkIjoiMGUwYWY5MTY2N2I4ZDg1MjdmNWVlMDY3NjZhN2Y5MjYxM2Y1ZWExNCIsImRhdGEiOnsiaWQiOjI0LCJ0aXBvIjoibWVzZXJvIn0sImFwcCI6IlRlc3QgSldUIn0.VAdI2YNncyUHoIXIk0I0WFhcrxNlJS2rAuk96hmy7ho",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idMozo",
+									"value": "24",
+									"type": "text"
+								},
+								{
+									"key": "idMesa",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "nombreCliente",
+									"value": "abril diaz",
+									"type": "text"
+								},
+								{
+									"key": "imagenMesa",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta ProductoPedido (1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProducto",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "idPedido",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "idEmpleado",
+									"value": "24",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta ProductoPedido (2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProducto",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "idPedido",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "idEmpleado",
+									"value": "24",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta ProductoPedido (3)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProducto",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "idPedido",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "idEmpleado",
+									"value": "24",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta ProductoPedido (4)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProducto",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "idPedido",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "idEmpleado",
+									"value": "24",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TraerSectorProductoPedido",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "sector ",
+									"value": "cocina",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/sector?sector=cocina",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"sector"
+							],
+							"query": [
+								{
+									"key": "sector",
+									"value": "cocina"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PreparacionPedido (1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "En Preparacion",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PreparacionPedido (2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "En Preparacion",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "15",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PreparacionPedido (3)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "En Preparacion",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PreparacionPedido (4)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "En Preparacion",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "7",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerTiempoPedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/pedidos/tiempo?id=13",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"tiempo"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TraerProductosPedidosPendientesXSector",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/productopedido/sector?sector=cocina",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"sector"
+							],
+							"query": [
+								{
+									"key": "sector",
+									"value": "cocina"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TerminarProducto (1)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "Listo Para Servir",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TerminarProducto (2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "Listo Para Servir",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TerminarProducto (3)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "Listo Para Servir",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TerminarProducto (4)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idProductoPedido",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstado",
+									"value": "Listo Para Servir",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productopedido/realizar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedido",
+								"realizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListarPedidosListosParaServir",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/pedidos/listos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"listos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MozaEntregaPedidoAMesa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "Con cliente comiendo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/mesas/modificar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"modificar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerMesas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MozaCobraPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idPedido",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "nuevoEstadoMesa",
+									"value": "Con cliente pagando",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/pedidos/cobrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"cobrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CerrarMesa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/mesas/cerrar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"cerrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AltaEncuesta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "idMesa",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "idPedido",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "nombreCliente",
+									"value": "fernando gutierrez",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "Muy buen restaurante",
+									"type": "text"
+								},
+								{
+									"key": "puntuacionMesa",
+									"value": "9",
+									"type": "text"
+								},
+								{
+									"key": "puntuacionMozo",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "puntuacionCocinero",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "puntuacionRestaurant",
+									"value": "8",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/encuestas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"encuestas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MejoresComentarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/encuestas/comentarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"encuestas",
+								"comentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MesaMasPopular",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:666/mesas/popular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"popular"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CRUD",
+			"item": [
+				{
+					"name": "AltaUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDE1NjkyMzcsImV4cCI6MTcwMTYyOTIzNywiYXVkIjoiMGUwYWY5MTY2N2I4ZDg1MjdmNWVlMDY3NjZhN2Y5MjYxM2Y1ZWExNCIsImRhdGEiOnsiaWQiOjEsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.QbXChs0iyTKDCVS30NWbCUhYm2UVlM3M93yqoHMK5rU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "fiama",
+									"type": "text"
+								},
+								{
+									"key": "apellido",
+									"value": "domingues",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "repostero",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "fdomi",
+									"type": "text"
+								},
+								{
+									"key": "contrasenia",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BajaUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDAzNDExODksImV4cCI6MTcwMDQwMTE4OSwiYXVkIjoiMGUwYWY5MTY2N2I4ZDg1MjdmNWVlMDY3NjZhN2Y5MjYxM2Y1ZWExNCIsImRhdGEiOnsiaWQiOjMsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.zJZLZllDOEZJMajzx4CovaCNlUpq8tQvIwpS2eLYSUM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/usuarios/baja",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"usuarios",
+								"baja"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ModificarUsuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDAzNDExODksImV4cCI6MTcwMDQwMTE4OSwiYXVkIjoiMGUwYWY5MTY2N2I4ZDg1MjdmNWVlMDY3NjZhN2Y5MjYxM2Y1ZWExNCIsImRhdGEiOnsiaWQiOjMsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.zJZLZllDOEZJMajzx4CovaCNlUpq8tQvIwpS2eLYSUM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "apellido",
+									"value": "peraualta",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/usuarios/modificar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"usuarios",
+								"modificar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerUsuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDAzNDExODksImV4cCI6MTcwMDQwMTE4OSwiYXVkIjoiMGUwYWY5MTY2N2I4ZDg1MjdmNWVlMDY3NjZhN2Y5MjYxM2Y1ZWExNCIsImRhdGEiOnsiaWQiOjMsInRpcG8iOiJzb2NpbyJ9LCJhcHAiOiJUZXN0IEpXVCJ9.zJZLZllDOEZJMajzx4CovaCNlUpq8tQvIwpS2eLYSUM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:222/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CargarUsuariosCSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:222/usuarios/cargar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"usuarios",
+								"cargar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GuardarUsuariosCSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:222/usuarios/guardar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"usuarios",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BajaMesa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/mesas/baja",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"mesas",
+								"baja"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ModificarMesa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "estado",
+									"value": "cerrada",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/mesas/modificar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"mesas",
+								"modificar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerMesas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:222/mesas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AltaProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "descripcion",
+									"value": "daikiri",
+									"type": "text"
+								},
+								{
+									"key": "sector",
+									"value": "barra de tragos",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "1000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:666/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BajaProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/productos/baja",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"productos",
+								"baja"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerProductos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:222/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ModificarProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "descripcion",
+									"value": "pancho",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sector",
+									"value": "cocina",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/productos/modificar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"productos",
+								"modificar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BajaPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/pedidos/baja",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"pedidos",
+								"baja"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ModificarPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "idMozo",
+									"value": "5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:222/pedidos/modificar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"pedidos",
+								"modificar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:222/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "222",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
